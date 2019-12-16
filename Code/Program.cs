@@ -124,7 +124,7 @@ namespace CSharpRefReturnBenchmark
             }
 
             stopWatch3.Stop();
-            DisplayElapseTime("Public Member access RunTime:", stopWatch3.Elapsed);
+            DisplayElapseTime("Public Member Access RunTime:", stopWatch3.Elapsed);
 
             Console.ReadKey();
         }
