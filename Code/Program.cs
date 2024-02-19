@@ -35,8 +35,9 @@ namespace CSharpRefReturnBenchmark
         
         static void Main(string[] args)
         {
+            const int MAX_LOOP = 1000;
             List<Coordinate> list = new List<Coordinate>();
-            for (int i = 0; i < 10000000; ++i)
+            for (int i = 0; i < 100000; ++i)
             {
                 list.Add(new Coordinate());
             }
@@ -44,39 +45,46 @@ namespace CSharpRefReturnBenchmark
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            for(int i=0; i<list.Count; ++i)
+            for (int j = 0; j < MAX_LOOP; ++j)
             {
-                Point pt = list[i].Pt;
-                pt.x = i;
-                pt.y = i;
-                list[i].Pt = pt;
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    Point pt = list[i].Pt;
+                    pt.x = i + j;
+                    pt.y = i + j;
+                    list[i].Pt = pt;
+                }
             }
 
             stopWatch.Stop();
-            DisplayElapseTime("Value Return RunTime:", stopWatch.Elapsed);
+            DisplayElapseTime("        Value Return RunTime:", stopWatch.Elapsed);
 
             Stopwatch stopWatch2 = new Stopwatch();
             stopWatch2.Start();
 
-            for (int i = 0; i < list.Count; ++i)
+            for (int j = 0; j < MAX_LOOP; ++j)
             {
-                ref Point pt = ref list[i].RefPt;
-                pt.x = i;
-                pt.y = i;
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    ref Point pt = ref list[i].RefPt;
+                    pt.x = i + j;
+                    pt.y = i + j;
+                }
             }
-
             stopWatch2.Stop();
-            DisplayElapseTime("Ref Return RunTime:", stopWatch2.Elapsed);
+            DisplayElapseTime("          Ref Return RunTime:", stopWatch2.Elapsed);
 
             Stopwatch stopWatch3 = new Stopwatch();
             stopWatch3.Start();
 
-            for(int i=0; i<list.Count; ++i)
+            for (int j = 0; j < MAX_LOOP; ++j)
             {
-                list[i]._Point.x = i;
-                list[i]._Point.y = i;
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    list[i]._Point.x = i + j;
+                    list[i]._Point.y = i + j;
+                }
             }
-
             stopWatch3.Stop();
             DisplayElapseTime("Public Member Access RunTime:", stopWatch3.Elapsed);
 
